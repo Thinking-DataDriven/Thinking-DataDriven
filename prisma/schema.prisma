@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model UserProfile {
+  id                     String     @id @default(cuid())
+  name                   String
+  currentGoals           String[]
+  currentFocus           String?
+  interests              String[]
+  preferredLearningStyle String?
+  operatingConstraints   String[]
+  longTermDirection      String?
+  projects               Project[]
+  decisions              Decision[]
+  knowledgeItems         KnowledgeItem[]
+  reflections            Reflection[]
+  createdAt              DateTime   @default(now())
+  updatedAt              DateTime   @updatedAt
+}
+
+model Project {
+  id          String     @id @default(cuid())
+  title       String
+  description String
+  status      String
+  domain      String
+  priority    String
+  linkedGoals String[]
+  userId      String
+  user        UserProfile @relation(fields: [userId], references: [id], onDelete: Cascade)
+  decisions   Decision[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Decision {
+  id              String     @id @default(cuid())
+  title           String
+  context         String?
+  chosenOption    String?
+  rationale       String?
+  risks           String[]
+  expectedOutcome String?
+  actualOutcome   String?
+  confidence      Int?
+  date            DateTime   @default(now())
+  userId          String
+  user            UserProfile @relation(fields: [userId], references: [id], onDelete: Cascade)
+  projectId       String?
+  project         Project?   @relation(fields: [projectId], references: [id], onDelete: SetNull)
+}
+
+model KnowledgeItem {
+  id             String     @id @default(cuid())
+  sourceType     String
+  sourceTitle    String
+  authorOrSpeaker String?
+  referenceUrl   String?
+  summary        String
+  keyPoints      String[]
+  actionability  String?
+  relevanceScore Int?
+  linkedTopics   String[]
+  linkedSkills   String[]
+  userId         String
+  user           UserProfile @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ingestedAt     DateTime   @default(now())
+}
+
+model Reflection {
+  id                   String     @id @default(cuid())
+  type                 String
+  content              String
+  extractedInsights    String[]
+  identifiedBottleneck String?
+  nextFocus            String?
+  date                 DateTime   @default(now())
+  userId               String
+  user                 UserProfile @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
