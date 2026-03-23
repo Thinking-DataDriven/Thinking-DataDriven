@@ -22,6 +22,12 @@ Open `http://localhost:3000`.
 
 Create `.env.local` from `.env.example`.
 
+For private site access, set:
+
+- `SITE_LOGIN`
+- `SITE_PASSWORD`
+- `SITE_SESSION_SECRET`
+
 ## Current status
 
 - Russian desktop-first MVP UI

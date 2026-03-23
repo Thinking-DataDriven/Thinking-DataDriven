@@ -45,9 +45,17 @@ export function PageHeader() {
         </div>
 
         <div className="max-w-xl">
-          <p className="text-xs uppercase tracking-[0.18em] text-slate-500">
-            Переключение экранов
-          </p>
+          <div className="flex items-center justify-between gap-4">
+            <p className="text-xs uppercase tracking-[0.18em] text-slate-500">
+              Переключение экранов
+            </p>
+            <a
+              className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-50 hover:text-slate-900"
+              href="/logout"
+            >
+              Выйти
+            </a>
+          </div>
           <div className="mt-3">
             <TopScreenSwitcher />
           </div>
